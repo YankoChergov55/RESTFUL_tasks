@@ -1,4 +1,5 @@
 import Task from "../models/taskModel.js";
+import validateTask from "../middleware/taskValidation.js";
 
 export const getTasks = async (req, res, next) => {
     try {
@@ -13,9 +14,17 @@ export const getTasks = async (req, res, next) => {
 }
 
 export const createTask = async (req, res, next) => {
+    const {error, value} = validateTask(req.body);
+    if (error) {
+        return next(error, {
+            success: false,
+            error: 'Validation Error',
+            details: error.details[0].message
+        });
+    }
+    
     try {
-        const {title, description} = req.body;
-        const task = await Task.create({title, description});
+        const task = await Task.create(value);
         res.status(201).json({
             success: true,
             data: task
@@ -39,9 +48,18 @@ export const getTask = async (req, res, next) => {
 }
 
 export const updateTask = async(req, res, next) => {
+    const {error, value} = validateTask(req.body);
+    if (error) {
+        return next(error, {
+            success: false,
+            error: 'Validation Error',
+            details: error.details[0].message
+        });
+    }
+
     try {
         const {id} = req.params;
-        const task = await Task.findByIdAndUpdate(id, req.body, {
+        const task = await Task.findByIdAndUpdate(id, value, {
             new: true
         });
         res.status(200).json({

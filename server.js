@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import {errorHandler} from "./middleware/errorHandler.js";
-import {connectDB} from "./config/db.js";
+import {connectDB} from "./util/db.js";
 import taskRoutes from "./routes/taskRoutes.js";
 
 const app = express();
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 
 app.use('/tasks', taskRoutes);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     connectDB();
-    console.log("Listening on port 3000");
+    console.log(`Server running on port ${process.env.PORT}`);
 });

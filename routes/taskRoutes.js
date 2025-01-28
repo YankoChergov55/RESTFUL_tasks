@@ -1,14 +1,12 @@
 import {Router} from "express";
-import {getTasks} from "../controllers/taskController.js";
+import {getTasks, getTask, createTask, updateTask, deleteTask} from "../controllers/taskController.js";
 
 const taskRouter = Router();
 
-taskRouter.get("/", (req, res, next) => {
-    getTasks(req, res, next);
-})
-taskRouter.get("/:id", (req, res) => {})
-taskRouter.post("/", (req, res) => {})
-taskRouter.put("/:id", (req, res) => {})
-taskRouter.delete("/:id", (req, res) => {})
+taskRouter.get("/", (req, res, next) => getTasks(req, res, next));
+taskRouter.get("/:id", (req, res, next) => getTask(req, res, next));
+taskRouter.post("/", (req, res, next) => createTask(req, res, next));
+taskRouter.put("/:id", (req, res, next) => updateTask(req, res, next));
+taskRouter.delete("/:id", (req, res, next) => deleteTask(req, res, next));
 
 export default taskRouter;

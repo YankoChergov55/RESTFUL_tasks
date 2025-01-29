@@ -3,10 +3,16 @@ import validateTask from "../middleware/taskValidation.js";
 
 export const getTasks = async (req, res, next) => {
   try {
-    const { status, search, sortBy, page = 1, limit = 10 } = req.query;
+    const { status, search, sortBy, page = 1, limit = 10, startDate, endDate, dueDate } = req.query;
     const query = {};
 
     if (status) query.status = status;
+
+    if (startDate && endDate) {
+      query.dueDate = { $gte: new Date(startDate), $lte: new Date(endDate) };
+    } else if (dueDate) {
+      query.dueDate = { $eq: new Date(dueDate) };
+    }
 
     if (search)
       query.$or = [

@@ -25,6 +25,23 @@ const taskSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    subtasks: {
+      type: [
+        {
+          title: {
+            type: String,
+            required: [true, "Subtask title is required"],
+            trim: true,
+          },
+          status: {
+            type: String,
+            enum: ["TODO", "IN_PROGRESS", "DONE"],
+            default: "TODO",
+          },
+        },
+      ],
+      default: [],
+    },
     dueDate: Date,
   },
   {

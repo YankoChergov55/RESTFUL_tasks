@@ -1,10 +1,11 @@
 import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import {errorHandler} from "./middleware/errorHandler.js";
-import {notFoundHandler} from "./middleware/notFoundHandler.js";
-import {connectDB} from "./util/db.js";
+import { errorHandler } from "./middleware/errorHandler.js";
+import { notFoundHandler } from "./middleware/notFoundHandler.js";
+import { connectDB } from "./util/db.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import subtaskRoutes from "./routes/subtaskRoutes.js";
 
 const app = express();
 
@@ -14,16 +15,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-    res.send("Welcome to the Task Manager API");
-})
+  res.send("Welcome to the Task Manager API");
+});
 
-app.use('/tasks', taskRoutes);
+app.use("/tasks", taskRoutes);
+app.use("/tasks/:taskId/subtasks", subtaskRoutes);
 
 // Handle 404 errors for non-existent routes
 app.use(notFoundHandler);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
-    connectDB();
-    console.log(`Server running on port ${process.env.PORT}`);
+  connectDB();
+  console.log(`Server running on port ${process.env.PORT}`);
 });

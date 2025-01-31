@@ -10,6 +10,12 @@ const taskSchema = joi.object({
     .string()
     .valid("LOW", "MEDIUM", "HIGH", "CRITICAL")
     .default("LOW"),
+  subtasks: joi.array().items(
+    joi.object({
+      title: joi.string().required(),
+      status: joi.string().valid("TODO", "IN_PROGRESS", "DONE").default("TODO"),
+    }),
+  ),
 });
 
 export default function validateTask(task) {

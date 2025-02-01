@@ -5,24 +5,24 @@ export const errorHandler = (err, req, res, next) => {
   if (err.isJoi) {
     return res.status(400).json({
       success: false,
-      error: 'Validation Error',
-      details: err.details[0].message
+      error: "Joi Validation Error",
+      details: err.details[0].message,
     });
   }
 
   // Handle Mongoose validation errors
-  if (err.name === 'ValidationError') {
+  if (err.name === "ValidationError") {
     return res.status(400).json({
       success: false,
-      error: 'Validation Error',
-      details: err.message
+      error: "Mongoose Validation Error",
+      details: err.message,
     });
   }
 
   // Handle other errors
-  res.status(500).json({ 
+  res.status(500).json({
     success: false,
-    error: 'Server Error',
-    details: err.message 
+    error: "Server Error",
+    details: err.message,
   });
 };

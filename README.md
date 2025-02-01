@@ -17,93 +17,75 @@ The RESTful Task Manager is a Node.js-based application designed to manage tasks
 
 1. **Task Management**:
 
-   - Create, update, delete, and retrieve tasks.
-   - Manage task statuses and priorities.
+   - Create, read, update, and delete tasks.
+   - Manage task statuses (TODO, IN_PROGRESS, DONE) and priorities (LOW, MEDIUM, HIGH, CRITICAL).
+   - Support for task descriptions, tags, and due dates.
 
-2. **Basic API Endpoints**:
+2. **Subtasks**:
 
-   - Endpoints to manage tasks with CRUD operations.
-   - `GET /tasks`: Retrieve all tasks.
-   - `GET /tasks/:id`: Retrieve a specific task by ID.
-   - `POST /tasks`: Create a new task.
-   - `PUT /tasks/:id`: Update an existing task by ID.
-   - `DELETE /tasks/:id`: Delete a task by ID.
-   - `GET /tasks/filter`: Filter tasks based on query parameters (status, date range, tags, etc.).
+   - Tasks can have subtasks.
+   - Subtasks have their own title and status.
 
-3. **Data Validation with Joi**
+3. **API Endpoints**:
+   **_Tasks Endpoints_**
 
-   - Use Joi for data validation to ensure the integrity of task data.
+   - `GET /api/tasks`: Retrieve all tasks.
+   - `GET /api/tasks/:id`: Retrieve a specific task by ID.
+   - `POST /api/tasks`: Create a new task.
+   - `PUT /api/tasks/:id`: Update an existing task by ID.
+   - `DELETE /api/tasks/:id`: Delete a task by ID.
+   - `GET /api/tasks/filter`: Filter tasks based on query parameters (status, priority, tags, due date range).
 
-4. **Logging**:
+   **_Subtasks Endpoints_**
+
+   - `GET /api/tasks/:taskId/subtasks`: Retrieve all subtasks for a specific task.
+   - `POST /api/tasks/:taskId/subtasks`: Add a new subtask to a specific task.
+   - `PUT /api/tasks/:taskId/subtasks/:subtaskId`: Update a specific subtask.
+   - `DELETE /api/tasks/:taskId/subtasks/:subtaskId`: Delete a specific subtask.
+
+   **_Bulk Operations Endpoints_**
+
+   - `POST /api/tasks/bulk`: Create multiple tasks in a single request.
+   - `PUT /api/tasks/bulk`: Update multiple tasks in a single request.
+   - `DELETE /api/tasks/bulk`: Delete multiple tasks in a single request.
+
+4. **Data Validation**:
+
+   - Use Joi for request payload validation to ensure data integrity.
+
+5. **Logging**:
+
    - Log HTTP requests to the console using Morgan.
 
-## Future Features
+6. **Error Handling**:
 
-1. **Subtasks**:
+   - Implement custom error handling middleware for consistent error responses.
 
-   - Allow tasks to have subtasks.
-   - Add endpoints to manage subtasks.
-   - Track completion progress based on subtasks.
-
-2. **User Management**:
-
-   - Add user authentication and authorization.
-   - Allow task assignment to specific users.
-   - Implement task sharing between users.
-   - Add user roles (admin, regular user).
-
-3. **Comments and Activity Log**:
-
-   - Allow users to comment on tasks.
-   - Track task history (status changes, updates).
-   - Add endpoints to manage comments.
-
-4. **Due Date Features**:
-
-   - Add reminders/notifications for upcoming due dates.
-   - Add overdue task filtering.
-   - Implement recurring tasks.
-
-5. **Bulk Operations**:
-
-   - Add endpoints for bulk create/update/delete operations.
-   - Allow moving multiple tasks between statuses.
-
-6. **Statistics and Reporting**:
-
-   - Add endpoints to get task completion statistics.
-   - Generate reports on task status distribution.
-   - Track time spent on tasks.
-
-7. **Data Export/Import**:
-
-   - Add endpoints to export tasks in various formats (CSV, JSON).
-   - Allow bulk import of tasks.
-
-8. **Task Dependencies**:
-
-   - Allow marking tasks as dependent on other tasks.
-   - Prevent completing tasks if dependencies aren't met.
-
-9. **API Improvements**:
-   - Add rate limiting.
-   - Implement caching for frequently accessed data.
-   - Add request validation middleware.
-   - Improve error handling with detailed error messages.
-   - Add API documentation using Swagger/OpenAPI.
+7. **Environment Configuration**:
+   - Use dotenv for managing environment-specific configurations.
 
 ## Getting Started
 
-To run the project locally, clone the repository and install the dependencies using npm:
+To run the project locally, follow these steps:
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your environment variables in a `.env` file:
+   - `PORT`: The port number for the server to listen on
+   - `MONGODB_URI`: The connection string for your MongoDB database
+   - `NODE_ENV`: The environment mode (e.g., "development", "production")
+4. Start the server:
+   ```bash
+   npm run server
+   ```
+
+For debugging:
 
 ```bash
-npm install
-```
-
-Start the server:
-
-```bash
-npm run server
+npm run debug
 ```
 
 ## License

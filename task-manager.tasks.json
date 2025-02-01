@@ -1,192 +1,194 @@
-[{
-  "title": "Complete project documentation",
-  "description": "Write detailed documentation for the project, including setup instructions and API details.",
-  "status": "IN_PROGRESS",
-  "priority": "HIGH",
-  "tags": ["documentation", "project"],
-  "subtasks": {
-    "setup-docs": {
-      "title": "Write setup instructions",
-      "status": "TODO"
-    },
-    "api-docs": {
-      "title": "Document API endpoints",
-      "status": "IN_PROGRESS"
-    }
+[
+  {
+    "title": "Complete project documentation",
+    "description": "Write detailed documentation for the project, including setup instructions and API details.",
+    "status": "IN_PROGRESS",
+    "priority": "HIGH",
+    "tags": ["documentation", "project"],
+    "subtasks": [
+      {
+        "title": "Write setup instructions",
+        "status": "TODO"
+      },
+      {
+        "title": "Document API endpoints",
+        "status": "IN_PROGRESS"
+      }
+    ],
+    "dueDate": "2025-02-05T00:00:00.000Z"
   },
-  "dueDate": "2025-02-05T00:00:00.000Z"
-},
-{
-  "title": "Fix login bug",
-  "description": "Resolve the issue where users cannot log in with special characters in their password.",
-  "status": "TODO",
-  "priority": "CRITICAL",
-  "tags": ["bug", "security", "authentication"],
-  "subtasks": {
-    "reproduce": {
-      "title": "Reproduce the issue",
-      "status": "TODO"
-    },
-    "fix": {
-      "title": "Implement fix",
-      "status": "TODO"
-    },
-    "test": {
-      "title": "Test with various special characters",
-      "status": "TODO"
-    }
+  {
+    "title": "Fix login bug",
+    "description": "Resolve the issue where users cannot log in with special characters in their password.",
+    "status": "TODO",
+    "priority": "CRITICAL",
+    "tags": ["bug", "security", "authentication"],
+    "subtasks": [
+      {
+        "title": "Reproduce the issue",
+        "status": "TODO"
+      },
+      {
+        "title": "Implement fix",
+        "status": "TODO"
+      },
+      {
+        "title": "Test with various special characters",
+        "status": "TODO"
+      }
+    ],
+    "dueDate": "2025-01-31T00:00:00.000Z"
   },
-  "dueDate": "2025-01-31T00:00:00.000Z"
-},
-{
-  "title": "Design homepage banner",
-  "description": "Create a new banner for the homepage to promote the upcoming sale.",
-  "status": "DONE",
-  "priority": "MEDIUM",
-  "tags": ["design", "marketing"],
-  "subtasks": {
-    "design-draft": {
-      "title": "Create initial design draft",
-      "status": "DONE"
-    },
-    "review": {
-      "title": "Get design review",
-      "status": "DONE"
-    }
+  {
+    "title": "Design homepage banner",
+    "description": "Create a new banner for the homepage to promote the upcoming sale.",
+    "status": "DONE",
+    "priority": "MEDIUM",
+    "tags": ["design", "marketing"],
+    "subtasks": [
+      {
+        "title": "Create initial design draft",
+        "status": "DONE"
+      },
+      {
+        "title": "Get design review",
+        "status": "DONE"
+      }
+    ],
+    "dueDate": "2025-01-20T00:00:00.000Z"
   },
-  "dueDate": "2025-01-20T00:00:00.000Z"
-},
-{
-  "title": "Prepare presentation for Q1 review",
-  "description": "Prepare a slide deck summarizing the team's performance and achievements for Q1.",
-  "status": "TODO",
-  "priority": "HIGH",
-  "tags": ["presentation", "quarterly-review"],
-  "subtasks": {
-    "data": {
-      "title": "Gather performance data",
-      "status": "TODO"
-    },
-    "slides": {
-      "title": "Create presentation slides",
-      "status": "TODO"
-    }
+  {
+    "title": "Prepare presentation for Q1 review",
+    "description": "Prepare a slide deck summarizing the team's performance and achievements for Q1.",
+    "status": "TODO",
+    "priority": "HIGH",
+    "tags": ["presentation", "quarterly-review"],
+    "subtasks": [
+      {
+        "title": "Gather performance data",
+        "status": "TODO"
+      },
+      {
+        "title": "Create presentation slides",
+        "status": "TODO"
+      }
+    ],
+    "dueDate": "2025-02-15T00:00:00.000Z"
   },
-  "dueDate": "2025-02-15T00:00:00.000Z"
-},
-{
-  "title": "Update dependencies",
-  "description": "Upgrade all project dependencies to the latest stable versions.",
-  "status": "IN_PROGRESS",
-  "priority": "MEDIUM",
-  "tags": ["maintenance", "dependencies"],
-  "subtasks": {
-    "audit": {
-      "title": "Run dependency audit",
-      "status": "DONE"
-    },
-    "update": {
-      "title": "Update packages",
-      "status": "IN_PROGRESS"
-    },
-    "test": {
-      "title": "Test after updates",
-      "status": "TODO"
-    }
+  {
+    "title": "Update dependencies",
+    "description": "Upgrade all project dependencies to the latest stable versions.",
+    "status": "IN_PROGRESS",
+    "priority": "MEDIUM",
+    "tags": ["maintenance", "dependencies"],
+    "subtasks": [
+      {
+        "title": "Run dependency audit",
+        "status": "DONE"
+      },
+      {
+        "title": "Update packages",
+        "status": "IN_PROGRESS"
+      },
+      {
+        "title": "Test after updates",
+        "status": "TODO"
+      }
+    ],
+    "dueDate": "2025-02-10T00:00:00.000Z"
   },
-  "dueDate": "2025-02-10T00:00:00.000Z"
-},
-{
-  "title": "Conduct user interviews",
-  "description": "Schedule and conduct interviews with 5 users to gather feedback on the latest feature release.",
-  "status": "TODO",
-  "priority": "HIGH",
-  "tags": ["user-research", "feedback"],
-  "subtasks": {
-    "schedule": {
-      "title": "Schedule interviews",
-      "status": "TODO"
-    },
-    "conduct": {
-      "title": "Conduct interviews",
-      "status": "TODO"
-    },
-    "summarize": {
-      "title": "Summarize findings",
-      "status": "TODO"
-    }
+  {
+    "title": "Conduct user interviews",
+    "description": "Schedule and conduct interviews with 5 users to gather feedback on the latest feature release.",
+    "status": "TODO",
+    "priority": "HIGH",
+    "tags": ["user-research", "feedback"],
+    "subtasks": [
+      {
+        "title": "Schedule interviews",
+        "status": "TODO"
+      },
+      {
+        "title": "Conduct interviews",
+        "status": "TODO"
+      },
+      {
+        "title": "Summarize findings",
+        "status": "TODO"
+      }
+    ],
+    "dueDate": "2025-02-20T00:00:00.000Z"
   },
-  "dueDate": "2025-02-20T00:00:00.000Z"
-},
-{
-  "title": "Write unit tests for payment module",
-  "description": "Add unit tests to cover edge cases in the payment module.",
-  "status": "TODO",
-  "priority": "HIGH",
-  "tags": ["testing", "payments"],
-  "subtasks": {
-    "edge-cases": {
-      "title": "Identify edge cases",
-      "status": "TODO"
-    },
-    "write-tests": {
-      "title": "Write test cases",
-      "status": "TODO"
-    }
+  {
+    "title": "Write unit tests for payment module",
+    "description": "Add unit tests to cover edge cases in the payment module.",
+    "status": "TODO",
+    "priority": "HIGH",
+    "tags": ["testing", "payments"],
+    "subtasks": [
+      {
+        "title": "Identify edge cases",
+        "status": "TODO"
+      },
+      {
+        "title": "Write test cases",
+        "status": "TODO"
+      }
+    ],
+    "dueDate": "2025-01-30T00:00:00.000Z"
   },
-  "dueDate": "2025-01-30T00:00:00.000Z"
-},
-{
-  "title": "Optimize database queries",
-  "description": "Identify and optimize slow database queries to improve application performance.",
-  "status": "IN_PROGRESS",
-  "priority": "HIGH",
-  "tags": ["performance", "database"],
-  "subtasks": {
-    "identify": {
-      "title": "Identify slow queries",
-      "status": "DONE"
-    },
-    "optimize": {
-      "title": "Implement optimizations",
-      "status": "IN_PROGRESS"
-    }
+  {
+    "title": "Optimize database queries",
+    "description": "Identify and optimize slow database queries to improve application performance.",
+    "status": "IN_PROGRESS",
+    "priority": "HIGH",
+    "tags": ["performance", "database"],
+    "subtasks": [
+      {
+        "title": "Identify slow queries",
+        "status": "DONE"
+      },
+      {
+        "title": "Implement optimizations",
+        "status": "IN_PROGRESS"
+      }
+    ],
+    "dueDate": "2025-02-12T00:00:00.000Z"
   },
-  "dueDate": "2025-02-12T00:00:00.000Z"
-},
-{
-  "title": "Team building activity",
-  "description": "Organize a team building activity to improve collaboration and morale.",
-  "status": "DONE",
-  "priority": "LOW",
-  "tags": ["team", "culture"],
-  "subtasks": {
-    "plan": {
-      "title": "Plan activity",
-      "status": "DONE"
-    },
-    "execute": {
-      "title": "Execute activity",
-      "status": "DONE"
-    }
+  {
+    "title": "Team building activity",
+    "description": "Organize a team building activity to improve collaboration and morale.",
+    "status": "DONE",
+    "priority": "LOW",
+    "tags": ["team", "culture"],
+    "subtasks": [
+      {
+        "title": "Plan activity",
+        "status": "DONE"
+      },
+      {
+        "title": "Execute activity",
+        "status": "DONE"
+      }
+    ],
+    "dueDate": "2025-01-25T00:00:00.000Z"
   },
-  "dueDate": "2025-01-25T00:00:00.000Z"
-},
-{
-  "title": "Finalize marketing campaign",
-  "description": "Collaborate with the marketing team to finalize the campaign strategy for Q2.",
-  "status": "TODO",
-  "priority": "HIGH",
-  "tags": ["marketing", "strategy"],
-  "subtasks": {
-    "strategy": {
-      "title": "Define campaign strategy",
-      "status": "TODO"
-    },
-    "materials": {
-      "title": "Prepare campaign materials",
-      "status": "TODO"
-    }
-  },
-  "dueDate": "2025-02-28T00:00:00.000Z"
-}]
+  {
+    "title": "Finalize marketing campaign",
+    "description": "Collaborate with the marketing team to finalize the campaign strategy for Q2.",
+    "status": "TODO",
+    "priority": "HIGH",
+    "tags": ["marketing", "strategy"],
+    "subtasks": [
+      {
+        "title": "Define campaign strategy",
+        "status": "TODO"
+      },
+      {
+        "title": "Prepare campaign materials",
+        "status": "TODO"
+      }
+    ],
+    "dueDate": "2025-02-28T00:00:00.000Z"
+  }
+]

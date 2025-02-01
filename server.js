@@ -6,6 +6,7 @@ import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { connectDB } from "./util/db.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import subtaskRoutes from "./routes/subtaskRoutes.js";
+import bulkRoutes from "./routes/bulkRoutes.js";
 
 const app = express();
 
@@ -18,8 +19,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Task Manager API");
 });
 
-app.use("/tasks", taskRoutes);
-app.use("/tasks/:taskId/subtasks", subtaskRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/tasks/:taskId/subtasks", subtaskRoutes);
+app.use("/api/bulk", bulkRoutes);
 
 // Handle 404 errors for non-existent routes
 app.use(notFoundHandler);

@@ -1,5 +1,5 @@
 import Task from "../models/taskModel.js";
-import validateTask from "../middleware/taskValidation.js";
+import { validateTask } from "../middleware/taskValidation.js";
 
 export const getTasks = async (req, res, next) => {
   try {
@@ -62,6 +62,14 @@ export const updateTask = async (req, res, next) => {
     const task = await Task.findByIdAndUpdate(id, value, {
       new: true,
     });
+
+    if (!task) {
+      res.status(404).json({
+        success: false,
+        error: "Task not found",
+      });
+    }
+
     res.status(200).json({
       success: true,
       data: task,
@@ -138,6 +146,13 @@ export const deleteTask = async (req, res, next) => {
   try {
     const { id } = req.params;
     const task = await Task.findByIdAndDelete(id);
+    if (!task) {
+      res.status(404).json({
+        success: false,
+        error: "Task not found",
+      });
+    }
+
     res.status(200).json({
       success: true,
       data: task,

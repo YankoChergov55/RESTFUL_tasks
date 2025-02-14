@@ -27,7 +27,12 @@ app.use("/api/bulk", bulkRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(process.env.PORT, () => {
-  connectDB();
-  console.log(`Server running on port ${process.env.PORT}`);
-});
+// Only start the server if this file is run directly
+if (process.env.NODE_ENV !== "test") {
+  app.listen(process.env.PORT, () => {
+    connectDB();
+    console.log(`Server is running on port ${process.env.PORT}`);
+  });
+}
+
+export default app;

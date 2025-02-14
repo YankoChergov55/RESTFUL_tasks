@@ -18,6 +18,8 @@ const taskSchema = joi.object({
   ),
 });
 
-export default function validateTask(task) {
+export function validateTask(task) {
   return taskSchema.validate(task);
 }
+
+export default taskSchema;

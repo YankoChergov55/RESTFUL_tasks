@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const taskSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: [true, 'Title is required'],
       trim: true,
     },
     description: {
@@ -13,13 +13,13 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["TODO", "IN_PROGRESS", "DONE"],
-      default: "TODO",
+      enum: ['TODO', 'IN_PROGRESS', 'DONE'],
+      default: 'TODO',
     },
     priority: {
       type: String,
-      enum: ["LOW", "MEDIUM", "HIGH", "CRITICAL"],
-      default: "LOW",
+      enum: ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'],
+      default: 'LOW',
     },
     tags: {
       type: [String],
@@ -30,13 +30,13 @@ const taskSchema = new mongoose.Schema(
         {
           title: {
             type: String,
-            required: [true, "Subtask title is required"],
+            required: [true, 'Subtask title is required'],
             trim: true,
           },
           status: {
             type: String,
-            enum: ["TODO", "IN_PROGRESS", "DONE"],
-            default: "TODO",
+            enum: ['TODO', 'IN_PROGRESS', 'DONE'],
+            default: 'TODO',
           },
         },
       ],
@@ -46,7 +46,7 @@ const taskSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
-export default mongoose.model("Task", taskSchema);
+export default mongoose.model('Task', taskSchema);

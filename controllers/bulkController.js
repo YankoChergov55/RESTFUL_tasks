@@ -1,5 +1,5 @@
-import Task from "../models/taskModel.js";
-import validateTask from "../middleware/taskValidation.js";
+import Task from '../models/taskModel.js';
+import validateTask from '../middleware/taskValidation.js';
 
 export const bulkCreateTasks = async (req, res, next) => {
   try {
@@ -7,7 +7,7 @@ export const bulkCreateTasks = async (req, res, next) => {
     if (!Array.isArray(tasks)) {
       return res.status(400).json({
         success: false,
-        error: "Request body must be an array of tasks",
+        error: 'Request body must be an array of tasks',
       });
     }
 
@@ -18,7 +18,7 @@ export const bulkCreateTasks = async (req, res, next) => {
       if (error) {
         return next(error, {
           success: false,
-          error: "Validation Error",
+          error: 'Validation Error',
           details: error.details[0].message,
           task: task,
         });
@@ -39,28 +39,28 @@ export const bulkCreateTasks = async (req, res, next) => {
 export const bulkUpdateTasks = async (req, res, next) => {
   try {
     const { filter, update } = req.body;
-    
+
     if (!filter || !update) {
       return res.status(400).json({
         success: false,
-        error: "Both filter and update objects are required",
+        error: 'Both filter and update objects are required',
       });
     }
 
     // Validate the update object
     const allowedUpdateFields = ['title', 'description', 'status', 'priority', 'tags', 'dueDate'];
     const updateFields = Object.keys(update);
-    const isValidUpdate = updateFields.every(field => allowedUpdateFields.includes(field));
+    const isValidUpdate = updateFields.every((field) => allowedUpdateFields.includes(field));
 
     if (!isValidUpdate) {
       return res.status(400).json({
         success: false,
-        error: "Invalid update fields",
+        error: 'Invalid update fields',
       });
     }
 
     const result = await Task.updateMany(filter, { $set: update }, { new: true });
-    
+
     res.status(200).json({
       success: true,
       data: {
@@ -76,16 +76,16 @@ export const bulkUpdateTasks = async (req, res, next) => {
 export const bulkDeleteTasks = async (req, res, next) => {
   try {
     const { filter } = req.body;
-    
+
     if (!filter) {
       return res.status(400).json({
         success: false,
-        error: "Filter object is required",
+        error: 'Filter object is required',
       });
     }
 
     const result = await Task.deleteMany(filter);
-    
+
     res.status(200).json({
       success: true,
       data: {

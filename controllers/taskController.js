@@ -1,5 +1,5 @@
-import Task from "../models/taskModel.js";
-import { validateTask } from "../middleware/taskValidation.js";
+import Task from '../models/taskModel.js';
+import { validateTask } from '../middleware/taskValidation.js';
 
 export const getTasks = async (req, res, next) => {
   try {
@@ -18,7 +18,7 @@ export const createTask = async (req, res, next) => {
   if (error) {
     return next(error, {
       success: false,
-      error: "Validation Error",
+      error: 'Validation Error',
       details: error.details[0].message,
     });
   }
@@ -52,7 +52,7 @@ export const updateTask = async (req, res, next) => {
   if (error) {
     return next(error, {
       success: false,
-      error: "Validation Error",
+      error: 'Validation Error',
       details: error.details[0].message,
     });
   }
@@ -66,7 +66,7 @@ export const updateTask = async (req, res, next) => {
     if (!task) {
       res.status(404).json({
         success: false,
-        error: "Task not found",
+        error: 'Task not found',
       });
     }
 
@@ -103,28 +103,25 @@ export const filterTasks = async (req, res, next) => {
       query.dueDate = { $eq: new Date(dueDate) };
     }
 
-    if (tags) query.tags = { $in: tags.split(",") };
+    if (tags) query.tags = { $in: tags.split(',') };
 
     if (priority) query.priority = { $eq: priority };
 
     if (search)
       query.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
       ];
 
     const sortOptions = {};
     if (sortBy) {
-      const [field, order] = sortBy.split(":");
-      sortOptions[field] = order === "desc" ? -1 : 1;
+      const [field, order] = sortBy.split(':');
+      sortOptions[field] = order === 'desc' ? -1 : 1;
     }
 
     const skip = (page - 1) * limit;
 
-    const tasks = await Task.find(query)
-      .sort(sortOptions)
-      .skip(skip)
-      .limit(Number(limit));
+    const tasks = await Task.find(query).sort(sortOptions).skip(skip).limit(Number(limit));
 
     const total = await Task.countDocuments(query);
 
@@ -149,7 +146,7 @@ export const deleteTask = async (req, res, next) => {
     if (!task) {
       res.status(404).json({
         success: false,
-        error: "Task not found",
+        error: 'Task not found',
       });
     }
 

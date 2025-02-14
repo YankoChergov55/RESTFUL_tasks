@@ -1,7 +1,7 @@
-import { jest } from "@jest/globals";
-import mongoose from "mongoose";
-import Task from "../../models/taskModel.js";
-import dotenv from "dotenv";
+import { jest } from '@jest/globals';
+import mongoose from 'mongoose';
+import Task from '../../models/taskModel.js';
+import dotenv from 'dotenv';
 dotenv.config();
 
 // Increase timeout for integration tests

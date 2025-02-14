@@ -1,20 +1,18 @@
-export const errorHandler = (err, req, res, next) => {
-  console.log(err.message);
-
+export const errorHandler = (err, res) => {
   // Handle Joi validation errors
   if (err.isJoi) {
     return res.status(400).json({
       success: false,
-      error: "Joi Validation Error",
+      error: 'Joi Validation Error',
       details: err.details[0].message,
     });
   }
 
   // Handle Mongoose validation errors
-  if (err.name === "ValidationError") {
+  if (err.name === 'ValidationError') {
     return res.status(400).json({
       success: false,
-      error: "Mongoose Validation Error",
+      error: 'Mongoose Validation Error',
       details: err.message,
     });
   }
@@ -22,7 +20,7 @@ export const errorHandler = (err, req, res, next) => {
   // Handle other errors
   res.status(500).json({
     success: false,
-    error: "Server Error",
+    error: 'Server Error',
     details: err.message,
   });
 };

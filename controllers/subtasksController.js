@@ -1,18 +1,18 @@
-import Task from "../models/taskModel.js";
+import Task from '../models/taskModel.js';
 
-export const getSubtasks = async (req, res, next) => {
+export const getSubtasks = async (err, req, res, next) => {
   try {
-    const params = req.baseUrl.split("/");
+    const params = req.baseUrl.split('/');
     const taskId = params[2];
 
     const task = await Task.findById(taskId);
     if (!task) {
-      return next(error, "Task not found");
+      return next(err, 'Task not found');
     }
 
     const subtasks = task.subtasks;
     if (!subtasks) {
-      return next(error, "No subtasks found for this task");
+      return next(err, 'No subtasks found for this task');
     }
 
     res.status(200).json({
@@ -26,7 +26,7 @@ export const getSubtasks = async (req, res, next) => {
 
 export const getSubtask = async (req, res, next) => {
   try {
-    const params = req.originalUrl.split("/");
+    const params = req.originalUrl.split('/');
     const taskId = params[2];
     const subtaskId = params[4];
 
@@ -50,7 +50,7 @@ export const getSubtask = async (req, res, next) => {
 
 export const createSubtask = async (req, res, next) => {
   try {
-    const params = req.originalUrl.split("/");
+    const params = req.originalUrl.split('/');
     const taskId = params[2];
 
     await Task.findByIdAndUpdate(taskId, {
@@ -67,9 +67,9 @@ export const createSubtask = async (req, res, next) => {
   }
 };
 
-export const updateSubtask = async (req, res, next) => {
+export const updateSubtask = async (err, req, res, next) => {
   try {
-    const params = req.originalUrl.split("/");
+    const params = req.originalUrl.split('/');
     const taskId = params[2];
     const subtaskId = params[4];
 
@@ -77,11 +77,9 @@ export const updateSubtask = async (req, res, next) => {
 
     const subtasks = task.subtasks;
 
-    const subtaskIndex = subtasks.findIndex(
-      (subtask) => subtask._id.toString() === subtaskId,
-    );
+    const subtaskIndex = subtasks.findIndex((subtask) => subtask._id.toString() === subtaskId);
     if (subtaskIndex === -1) {
-      return next(error, "Subtask not found");
+      return next(err, 'Subtask not found');
     }
 
     const updatedSubtask = subtasks[subtaskIndex];
@@ -98,9 +96,9 @@ export const updateSubtask = async (req, res, next) => {
   }
 };
 
-export const deleteSubtask = async (req, res, next) => {
+export const deleteSubtask = async (err, req, res, next) => {
   try {
-    const params = req.originalUrl.split("/");
+    const params = req.originalUrl.split('/');
     const taskId = params[2];
     const subtaskId = params[4];
 
@@ -108,11 +106,9 @@ export const deleteSubtask = async (req, res, next) => {
 
     const subtasks = task.subtasks;
 
-    const subtaskIndex = subtasks.findIndex(
-      (subtask) => subtask._id.toString() === subtaskId,
-    );
+    const subtaskIndex = subtasks.findIndex((subtask) => subtask._id.toString() === subtaskId);
     if (subtaskIndex === -1) {
-      return next(error, "Subtask not found");
+      return next(err, 'Subtask not found');
     }
 
     subtasks.splice(subtaskIndex, 1);

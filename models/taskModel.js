@@ -49,4 +49,21 @@ const taskSchema = new mongoose.Schema(
   }
 );
 
+// Add indexes for common query fields
+taskSchema.index({ status: 1 });
+taskSchema.index({ priority: 1 });
+taskSchema.index({ dueDate: 1 });
+taskSchema.index({ tags: 1 });
+
+// Add compound indexes for common query patterns
+taskSchema.index({ status: 1, priority: 1 }); // For filtering by status and priority
+taskSchema.index({ status: 1, dueDate: 1 }); // For filtering by status and sorting by due date
+taskSchema.index({ tags: 1, status: 1 }); // For filtering by tags and status
+
+// Create a compound index for status and priority
+taskSchema.index({ status: 1, priority: 1 });
+
+// Add text index for title and description to enable text search
+taskSchema.index({ title: 'text', description: 'text' });
+
 export default mongoose.model('Task', taskSchema);

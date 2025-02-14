@@ -1,5 +1,5 @@
 import Task from '../models/taskModel.js';
-import validateTask from '../middleware/taskValidation.js';
+import { validateTask } from '../middleware/taskValidation.js';
 
 export const bulkCreateTasks = async (req, res, next) => {
   try {

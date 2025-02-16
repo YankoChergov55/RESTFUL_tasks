@@ -1,8 +1,8 @@
 import express from 'express';
 import {
-  bulkCreateTasks,
-  bulkUpdateTasks,
-  bulkDeleteTasks,
+	bulkCreateTasks,
+	bulkUpdateTasks,
+	bulkDeleteTasks,
 } from '../controllers/bulkController.js';
 
 const router = express.Router();

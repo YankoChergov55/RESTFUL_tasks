@@ -1,51 +1,51 @@
 import request from 'supertest';
-import app from '../../server.js';
-import Task from '../../models/taskModel.js';
+import app from '../../../server.js';
+import Task from '../../../models/taskModel.js';
 
 describe('GET /api/tasks', () => {
-  beforeEach(async () => {
-    await Task.deleteMany({});
-  });
+	beforeEach(async () => {
+		await Task.deleteMany({});
+	});
 
-  it('should get all tasks', async () => {
-    // Create test tasks
-    const testTasks = [
-      {
-        title: 'Test Task 1',
-        description: 'First test task',
-        status: 'TODO',
-        priority: 'HIGH',
-        tags: ['test'],
-        dueDate: '2023-12-31',
-      },
-      {
-        title: 'Test Task 2',
-        description: 'Second test task',
-        status: 'IN_PROGRESS',
-        priority: 'MEDIUM',
-        tags: ['test', 'important'],
-        dueDate: '2024-01-15',
-      },
-    ];
+	it('should get all tasks', async () => {
+		// Create test tasks
+		const testTasks = [
+			{
+				title: 'Test Task 1',
+				description: 'First test task',
+				status: 'TODO',
+				priority: 'HIGH',
+				tags: ['test'],
+				dueDate: '2023-12-31',
+			},
+			{
+				title: 'Test Task 2',
+				description: 'Second test task',
+				status: 'IN_PROGRESS',
+				priority: 'MEDIUM',
+				tags: ['test', 'important'],
+				dueDate: '2024-01-15',
+			},
+		];
 
-    await Task.insertMany(testTasks);
+		await Task.insertMany(testTasks);
 
-    const response = await request(app).get('/api/tasks').expect(200);
+		const response = await request(app).get('/api/tasks').expect(200);
 
-    expect(response.body).toMatchObject({
-      success: true,
-      data: expect.arrayContaining([
-        expect.objectContaining({
-          title: expect.any(String),
-          description: expect.any(String),
-          status: expect.any(String),
-          priority: expect.any(String),
-          tags: expect.any(Array),
-          dueDate: expect.any(String),
-        }),
-      ]),
-    });
-  });
+		expect(response.body).toMatchObject({
+			success: true,
+			data: expect.arrayContaining([
+				expect.objectContaining({
+					title: expect.any(String),
+					description: expect.any(String),
+					status: expect.any(String),
+					priority: expect.any(String),
+					tags: expect.any(Array),
+					dueDate: expect.any(String),
+				}),
+			]),
+		});
+	});
 });
 //   it("should get a single task by ID", async () => {
 //     const task = await Task.create({

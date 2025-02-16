@@ -173,6 +173,118 @@ The following features are planned for future implementation to enhance the func
 16. **CORS**: Configure Cross-Origin Resource Sharing.
 17. **Request Monitoring**: Enhance request logging and monitoring capabilities.
 
-## License
+#User Authentication implementation in progress
 
-This project is licensed under the ISC License.
+### Project Folder Structure with auth implemented
+
+/RESTful_TaskManager
+│── server.js # Main server file
+│── .env # Environment variables
+│── .gitignore # Git ignore rules
+│── .prettierrc # Prettier configuration
+│── .vscode/ # VS Code settings
+│── README.md # Project documentation
+│── eslint.config.mjs # ESLint configuration
+│── jest.config.mjs # Jest test configuration
+│── package.json # Project dependencies and scripts
+│
+│── **tests**/ # Test files
+│ ├── integration/ # Integration tests
+│ │ ├── setup.js
+│ │ ├── createUser.test.js
+│ │ ├── deleteUser.test.js
+│ │ ├── getUsers.test.js
+│ │ └── updateUser.test.js
+│ ├── errorHandler.test.js
+│ ├── notFoundHandler.test.js
+│ └── validation.test.js
+│
+│── middleware/ # Express middleware
+│ ├── authMiddleware.js # Middleware to protect routes
+│ ├── errorHandler.js
+│ ├── notFoundHandler.js
+│ └── userValidation.js # Validation middleware for user operations
+│
+│── models/ # Database models
+│ └── userModel.js # User schema/model
+│
+│── routes/ # API routes
+│ ├── userRoutes.js # User-related routes (registration, login, etc.)
+│
+│── util/ # Utility functions
+│ ├── db.js # Database connection
+│ └── hash.js # Utility functions for password hashing
+
+## User Auth Endpoints
+
+GET /api/users: Retrieve all users.
+
+GET /api/users/:id: Retrieve a specific user by ID.
+
+POST /api/users/register: Register a new user.
+
+POST /api/users/login: Log in an existing user.
+
+POST /api/users/logout: Log out a user.
+
+PUT /api/users/:id: Update an existing user by ID.
+
+DELETE /api/users/:id: Delete a user by ID.
+
+GET /api/users/validate: Validate a user's authentication token.
+
+## User Auth functionality
+
+### User Registration (POST /api/users/register)
+
+Should successfully register a user with valid details.
+
+Should return 400 if required fields are missing.
+
+Should return 409 if the email is already registered.
+
+### User Login (POST /api/users/login)
+
+Should log in a user with valid credentials and return a JWT.
+
+Should return 400 for missing fields.
+
+Should return 401 for incorrect email or password.
+
+### Retrieve Users (GET /api/users)
+
+Should return all users.
+
+Should return 401 if not authenticated.
+
+### Retrieve User (GET /api/users/:id)
+
+Should return the requested user by ID.
+
+Should return 404 if the user is not found.
+
+### Update User (PUT /api/users/:id)
+
+Should update a user’s details.
+
+Should return 400 if invalid data is provided.
+
+Should return 404 if the user is not found.
+
+### Delete User (DELETE /api/users/:id)
+
+Should delete a user by ID.
+
+Should return 404 if the user is not found.
+
+### Logout (POST /api/users/logout)
+
+Should clear the authentication token.
+
+Should return 200 on successful logout.
+
+### Token Validation (GET /api/users/validate)
+
+Should return 200 if the token is valid.
+
+Should return 401 if the token is expired or invalid.

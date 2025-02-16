@@ -1,10 +1,10 @@
 import express from 'express';
 import {
-  getSubtasks,
-  getSubtask,
-  createSubtask,
-  updateSubtask,
-  deleteSubtask,
+	getSubtasks,
+	getSubtask,
+	createSubtask,
+	updateSubtask,
+	deleteSubtask,
 } from '../controllers/subtasksController.js';
 
 const subtaskRouter = express.Router();

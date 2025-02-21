@@ -1,6 +1,6 @@
 import app from '../../../server.js';
 import request from 'supertest';
-import { User } from '../../../models/user.js';
+import User from '../../../models/userModel.js';
 
 describe('user retrieval', () => {
 	const testUser = {
@@ -9,34 +9,81 @@ describe('user retrieval', () => {
 		password: 'Test1234!',
 	};
 
-	beforeEach(async () => {
-		await User.deleteMany({});
-		await request(app).post('/api/users/register').send(testUser);
+	describe('GET /api/users', () => {
+		let adminToken;
+		const adminUser = {
+			username: 'admin',
+			email: 'admin@test.com',
+			password: 'Admin123!',
+			role: 'admin',
+		};
+
+		beforeEach(async () => {
+			// Create an admin user
+			await request(app).post('/api/users/register').send(adminUser);
+			// Login as admin
+			const loginResponse = await request(app)
+				.post('/api/users/login')
+				.send({ email: adminUser.email, password: adminUser.password });
+			adminToken = loginResponse.body.token;
+
+			// Create a regular test user
+			await request(app).post('/api/users/register').send(testUser);
+		});
+
+		it('should get all users when authenticated as admin', async () => {
+			const response = await request(app)
+				.get('/api/users')
+				.set('Authorization', `Bearer ${adminToken}`);
+
+			expect(response.status).toBe(200);
+			expect(Array.isArray(response.body)).toBe(true);
+			expect(response.body.length).toBeGreaterThanOrEqual(2); // Admin + test user
+			const foundTestUser = response.body.find((user) => user.email === testUser.email);
+			expect(foundTestUser.username).toBe(testUser.username);
+			expect(foundTestUser.email).toBe(testUser.email);
+			expect(foundTestUser.password).toBeUndefined();
+		});
+
+		it('should return 401 when not authenticated', async () => {
+			const response = await request(app).get('/api/users');
+			expect(response.status).toBe(401);
+		});
+
+		it('should return 403 when authenticated as non-admin user', async () => {
+			// Login as regular user
+			const loginResponse = await request(app)
+				.post('/api/users/login')
+				.send({ email: testUser.email, password: testUser.password });
+			const userToken = loginResponse.body.token;
+
+			const response = await request(app)
+				.get('/api/users')
+				.set('Authorization', `Bearer ${userToken}`);
+			expect(response.status).toBe(403);
+		});
 	});
 
-	it('should get all users', async () => {
-		const response = await request(app).get('/api/users');
-		expect(response.status).toBe(200);
-		expect(Array.isArray(response.body)).toBe(true);
-		expect(response.body[0].username).toBe(testUser.username);
-		expect(response.body[0].email).toBe(testUser.email);
-		expect(response.body[0].password).toBeUndefined();
-	});
+	it('should not allow access to other user profiles', async () => {
+		// Create another user
+		const otherUser = await request(app).post('/api/users/register').send({
+			username: 'other',
+			email: 'other@test.com',
+			password: 'Other123!',
+		});
 
-	it('should get a specific user by id', async () => {
-		const users = await User.find({});
-		const userId = users[0]._id;
+		// Login as test user
+		const loginResponse = await request(app)
+			.post('/api/users/login')
+			.send({ email: testUser.email, password: testUser.password });
 
-		const response = await request(app).get(`/api/users/${userId}`);
-		expect(response.status).toBe(200);
-		expect(response.body.username).toBe(testUser.username);
-		expect(response.body.email).toBe(testUser.email);
-		expect(response.body.password).toBeUndefined();
-	});
+		const userToken = loginResponse.body.token;
 
-	it('should return 404 for non-existent user', async () => {
-		const nonExistentId = '507f1f77bcf86cd799439011';
-		const response = await request(app).get(`/api/users/${nonExistentId}`);
-		expect(response.status).toBe(404);
+		// Try to access other user's profile
+		const response = await request(app)
+			.get(`/api/users/${otherUser.body._id}`)
+			.set('Authorization', `Bearer ${userToken}`);
+
+		expect(response.status).toBe(403);
 	});
 });

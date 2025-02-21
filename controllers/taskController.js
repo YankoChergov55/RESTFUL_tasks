@@ -3,7 +3,7 @@ import { validateTask } from '../middleware/taskValidation.js';
 
 export const getTasks = async (req, res, next) => {
 	try {
-		const tasks = await Task.find();
+		const tasks = await Task.find({ user: req.user.id });
 		res.status(200).json({
 			success: true,
 			data: tasks,
@@ -16,7 +16,7 @@ export const getTasks = async (req, res, next) => {
 export const createTask = async (req, res, next) => {
 	const { error, value } = validateTask(req.body);
 	if (error) {
-		return next(error, {
+		return res.status(400).json({
 			success: false,
 			error: 'Validation Error',
 			details: error.details[0].message,
@@ -24,7 +24,7 @@ export const createTask = async (req, res, next) => {
 	}
 
 	try {
-		const task = await Task.create(value);
+		const task = await Task.create({ ...value, user: req.user.id });
 		res.status(201).json({
 			success: true,
 			data: task,
@@ -36,8 +36,13 @@ export const createTask = async (req, res, next) => {
 
 export const getTask = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const task = await Task.findById(id);
+		const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+		if (!task) {
+			return res.status(404).json({
+				success: false,
+				error: 'Task not found',
+			});
+		}
 		res.status(200).json({
 			success: true,
 			data: task,
@@ -58,9 +63,9 @@ export const updateTask = async (req, res, next) => {
 	}
 
 	try {
-		const { id } = req.params;
-		const task = await Task.findByIdAndUpdate(id, value, {
+		const task = await Task.findOneAndUpdate({ _id: req.params.id, user: req.user.id }, value, {
 			new: true,
+			runValidators: true,
 		});
 
 		if (!task) {
@@ -73,6 +78,25 @@ export const updateTask = async (req, res, next) => {
 		res.status(200).json({
 			success: true,
 			data: task,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+export const deleteTask = async (req, res, next) => {
+	try {
+		const task = await Task.findOneAndDelete({ _id: req.params.id, user: req.user.id });
+		if (!task) {
+			return res.status(404).json({
+				success: false,
+				error: 'Task not found',
+			});
+		}
+
+		res.status(200).json({
+			success: true,
+			message: 'Task deleted successfully',
 		});
 	} catch (error) {
 		next(error);
@@ -93,7 +117,7 @@ export const filterTasks = async (req, res, next) => {
 			tags,
 			priority,
 		} = req.query;
-		const query = {};
+		const query = { user: req.user.id };
 
 		if (status) query.status = status;
 
@@ -133,26 +157,6 @@ export const filterTasks = async (req, res, next) => {
 				limit: Number(limit),
 				total,
 			},
-		});
-	} catch (error) {
-		next(error);
-	}
-};
-
-export const deleteTask = async (req, res, next) => {
-	try {
-		const { id } = req.params;
-		const task = await Task.findByIdAndDelete(id);
-		if (!task) {
-			return res.status(404).json({
-				success: false,
-				error: 'Task not found',
-			});
-		}
-
-		res.status(200).json({
-			success: true,
-			data: task,
 		});
 	} catch (error) {
 		next(error);

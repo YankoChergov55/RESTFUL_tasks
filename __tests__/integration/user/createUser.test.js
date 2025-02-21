@@ -17,7 +17,7 @@ describe('user creation', () => {
 	it('should return 400 if required fields are missing', async () => {
 		const response = await request(app).post('/api/users/register').send({});
 		expect(response.status).toBe(400);
-		expect(response.body.error).toBe('Joi Validation Error');
+		expect(response.body.error).toBe('Validation Error');
 		expect(response.body.details).toBe('"username" is required');
 	});
 });

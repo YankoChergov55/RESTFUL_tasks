@@ -20,20 +20,7 @@ export default [
 			prettier: prettier,
 		},
 		rules: {
-			'prettier/prettier': [
-				'error',
-				{
-					useTabs: true,
-					semi: true,
-					trailingComma: 'es5',
-					singleQuote: true,
-					printWidth: 100,
-					endOfLine: 'auto',
-					bracketSpacing: true,
-					arrowParens: 'always',
-					proseWrap: 'preserve',
-				},
-			],
+			'prettier/prettier': 'error',
 			'no-console': 'off',
 			'no-unused-vars': 'off',
 		},

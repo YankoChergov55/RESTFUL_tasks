@@ -1,6 +1,6 @@
 import app from '../../../server.js';
 import request from 'supertest';
-import { User } from '../../../models/user.js';
+import User from '../../../models/userModel.js';
 
 describe('user update', () => {
 	const testUser = {
@@ -8,10 +8,15 @@ describe('user update', () => {
 		email: 'test@example.com',
 		password: 'Test1234!',
 	};
+	let authToken;
 
 	beforeEach(async () => {
 		await User.deleteMany({});
-		await request(app).post('/api/users/register').send(testUser);
+		const registerResponse = await request(app).post('/api/users/register').send(testUser);
+		const loginResponse = await request(app)
+			.post('/api/users/login')
+			.send({ email: testUser.email, password: testUser.password });
+		authToken = loginResponse.body.token;
 	});
 
 	it('should update user details', async () => {
@@ -21,20 +26,34 @@ describe('user update', () => {
 		const updatedData = {
 			username: 'updateduser',
 			email: 'updated@example.com',
+			password: 'UpdatedTest1234!',
 		};
 
-		const response = await request(app).put(`/api/users/${userId}`).send(updatedData);
+		const response = await request(app)
+			.put(`/api/users/${userId}`)
+			.set('Authorization', `Bearer ${authToken}`)
+			.send(updatedData);
 
 		expect(response.status).toBe(200);
-		expect(response.body.username).toBe(updatedData.username);
-		expect(response.body.email).toBe(updatedData.email);
+		expect(response.body).toEqual({
+			id: userId.toString(),
+			username: updatedData.username,
+			email: updatedData.email,
+		});
 	});
 
 	it('should return 404 when updating non-existent user', async () => {
 		const nonExistentId = '507f1f77bcf86cd799439011';
+		const updatedData = {
+			username: 'newname',
+			email: 'new@example.com',
+			password: 'NewTest1234!',
+		};
+
 		const response = await request(app)
 			.put(`/api/users/${nonExistentId}`)
-			.send({ username: 'newname' });
+			.set('Authorization', `Bearer ${authToken}`)
+			.send(updatedData);
 
 		expect(response.status).toBe(404);
 	});
@@ -45,6 +64,7 @@ describe('user update', () => {
 
 		const response = await request(app)
 			.put(`/api/users/${userId}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send({ email: 'invalid-email' });
 
 		expect(response.status).toBe(400);

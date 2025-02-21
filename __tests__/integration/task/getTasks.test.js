@@ -1,100 +1,65 @@
 import request from 'supertest';
+import jwt from 'jsonwebtoken';
 import app from '../../../server.js';
 import Task from '../../../models/taskModel.js';
+import User from '../../../models/userModel.js';
+import mongoose from 'mongoose';
 
 describe('GET /api/tasks', () => {
-	beforeEach(async () => {
-		await Task.deleteMany({});
-	});
+	let token;
+	let user;
 
-	it('should get all tasks', async () => {
-		// Create test tasks
-		const testTasks = [
+	beforeEach(async () => {
+		// Create a test user directly
+		user = await User.create({
+			username: 'testuser',
+			email: 'test@example.com',
+			password: 'password123',
+			name: 'Test User',
+		});
+
+		// Generate token directly
+		token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+		// Create some test tasks
+		await Task.create([
 			{
-				title: 'Test Task 1',
-				description: 'First test task',
+				title: 'Task 1',
+				description: 'Description 1',
 				status: 'TODO',
-				priority: 'HIGH',
-				tags: ['test'],
-				dueDate: '2023-12-31',
+				priority: 'LOW',
+				user: user._id,
 			},
 			{
-				title: 'Test Task 2',
-				description: 'Second test task',
+				title: 'Task 2',
+				description: 'Description 2',
 				status: 'IN_PROGRESS',
 				priority: 'MEDIUM',
-				tags: ['test', 'important'],
-				dueDate: '2024-01-15',
+				user: user._id,
 			},
-		];
+		]);
+	});
 
-		await Task.insertMany(testTasks);
+	afterEach(async () => {
+		await Task.deleteMany({});
+		await User.deleteMany({});
+	});
 
-		const response = await request(app).get('/api/tasks').expect(200);
+	it('should get all tasks for the authenticated user', async () => {
+		const response = await request(app)
+			.get('/api/tasks')
+			.set('Authorization', `Bearer ${token}`)
+			.expect(200);
 
-		expect(response.body).toMatchObject({
-			success: true,
-			data: expect.arrayContaining([
-				expect.objectContaining({
-					title: expect.any(String),
-					description: expect.any(String),
-					status: expect.any(String),
-					priority: expect.any(String),
-					tags: expect.any(Array),
-					dueDate: expect.any(String),
-				}),
-			]),
-		});
+		expect(response.body.success).toBe(true);
+		expect(response.body.data[0].user.toString()).toBe(user._id.toString());
+		expect(response.body.data).toHaveLength(2);
+	});
+
+	it('should return 401 if no authentication token is provided', async () => {
+		const response = await request(app).get('/api/tasks').expect(401);
+
+		expect(response.body.success).toBe(false);
+		expect(response.body.error).toBe('No token provided');
 	});
 });
-//   it("should get a single task by ID", async () => {
-//     const task = await Task.create({
-//       title: "Single Test Task",
-//       description: "Test task for single get",
-//       status: "TODO",
-//       priority: "HIGH",
-//       tags: ["test"],
-//       dueDate: "2023-12-31",
-//     });
-
-//     const response = await request(app)
-//       .get(`/api/tasks/${task._id}`)
-//       .expect(200);
-
-//     expect(response.body).toHaveProperty("title", "Single Test Task");
-//     expect(response.body).toHaveProperty("_id", task._id.toString());
-//   });
-
-//   it("should return 404 for non-existent task ID", async () => {
-//     const nonExistentId = "507f1f77bcf86cd799439011";
-
-//     await request(app).get(`/api/tasks/${nonExistentId}`).expect(404);
-//   });
-
-//   it("should filter tasks by status", async () => {
-//     await Task.create([
-//       {
-//         title: "Todo Task",
-//         description: "Task in TODO",
-//         status: "TODO",
-//         priority: "HIGH",
-//         dueDate: "2023-12-31",
-//       },
-//       {
-//         title: "Done Task",
-//         description: "Task in DONE",
-//         status: "DONE",
-//         priority: "LOW",
-//         dueDate: "2023-12-31",
-//       },
-//     ]);
-
-//     const response = await request(app)
-//       .get("/api/tasks")
-//       .query({ status: "TODO" })
-//       .expect(200);
-
-//     expect(response.body).toHaveLength(1);
-//     expect(response.body[0]).toHaveProperty("status", "TODO");
-//   });
-// });
